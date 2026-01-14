@@ -1,0 +1,11 @@
+html.dark {
+    background-color: #f9fafb !important;
+}
+
+html.dark body {
+    background-color: #f9fafb !important;
+    color: #111827 !important;
+}
+.fi-modal-close-overlay {
+    display: none !important;
+}
