@@ -1,71 +1,83 @@
-)
-📌 Overview
+# Student Score Management System
 
-This project is a Student Score Management System built with Laravel and Docker, developed as part of a Backend Intern technical test.
+> **Backend Intern Technical Test Submission**
 
-The system is designed with performance and maintainability in mind:
+This project is a Student Score Management System built with **Laravel** and **Docker**. The system is engineered with a focus on performance optimization and maintainability, employing techniques such as database indexing, caching strategies, and a strict separation of business logic.
 
-Student score data is properly indexed to optimize query performance.
+---
 
-Caching mechanisms are applied to frequently accessed data to reduce database load.
+## 📌 Overview
 
-A dedicated result table is used to store calculated statistics (total score, average score, classification), minimizing repeated computations and improving response time.
+The system is designed to handle student data efficiently with the following key features:
 
-The application follows Object-Oriented Programming (OOP) principles, with clear separation of concerns (Models, Services, Controllers).
+- **Performance Optimization:**
+  - **Indexing:** Student score data is properly indexed to optimize query performance.
+  - **Caching:** Caching mechanisms are applied to frequently accessed data to reduce database load.
+  - **Pre-calculation:** A dedicated result table stores calculated statistics (Total Score, Average Score, Classification) to minimize repeated computations and improve response times.
+- **Architecture:**
+  - Follows **Object-Oriented Programming (OOP)** principles.
+  - Implements a clear separation of concerns using **MVC** and **Service Layers** (Models, Services, Controllers).
 
-🛠️ Tech Stack
+## 🛠️ Tech Stack
 
-PHP 8.2
+- **Language:** PHP 8.2
+- **Framework:** Laravel 10
+- **Admin Panel:** Filament 3.2
+- **Database:** MySQL 8.0
+- **Environment:** Docker & Docker Compose
+- **Web Server:** Nginx
 
-Laravel 10
+## 📂 Project Structure
 
-Filament 3.2
+Key directories and files in the project:
 
-MySQL 8.0
-
-Docker & Docker Compose
-
-Nginx
-
-📂 Project Structure (Important Parts)
+```text
 student-score/
 ├── app/
-│   ├── Models/
-│   ├── Http/Controllers/
-│   └── Services/
+│   ├── Models/             # Eloquent Models
+│   ├── Http/Controllers/   # Controllers
+│   └── Services/           # Business Logic Layer (Score processing)
 ├── database/
-│   ├── migrations/
-│   ├── seeders/
-│   └── data/students.json
+│   ├── migrations/         # Database Schema
+│   ├── seeders/            # Seeders
+│   └── data/students.json  # Initial data for seeding
 ├── docker/
-│   ├── nginx/
-│   └── php/
-├── docker-compose.yml
-├── Dockerfile
-├── .env.example
+│   ├── nginx/              # Nginx configuration
+│   └── php/                # PHP configuration
+├── docker-compose.yml      # Docker services configuration
+├── Dockerfile              # Application build file
+├── .env.example            # Environment variables example
 └── README.md
 
-⚙️ Requirements
+## ⚙️ Requirements
 
-Make sure you have installed:
+Ensure you have the following installed on your machine:
 
-Docker
+- Docker
+- Docker Compose
+- Git
 
-Docker Compose
+👉 **Note:** You do not need to install PHP, Composer, or MySQL locally. Everything runs within Docker containers.
 
-Git
+---
 
-👉 No need to install PHP, Composer, or MySQL locally.
+## 🚀 Setup & Installation
 
-🚀 Setup & Run Project
-1️⃣ Clone repository
-git clone https://github.com/TeeNoiz04/GoldenOwlAsia--TestIntern.git
+Follow these steps to set up the project:
+
+### 1️⃣ Clone the repository
+```bash
+git clone [https://github.com/TeeNoiz04/GoldenOwlAsia--TestIntern.git](https://github.com/TeeNoiz04/GoldenOwlAsia--TestIntern.git)
 cd student-score
 
-2️⃣ Create environment file
+### 2️⃣ Configure Environment
+
+Create the `.env` file from the example:
+
+```bash
 cp .env.example .env
 
-Update .env
+Update the Database credentials in .env to match the Docker configuration:
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
@@ -73,68 +85,44 @@ DB_DATABASE=student_score
 DB_USERNAME=app_user
 DB_PASSWORD=secret123
 
-3️⃣ Build & start Docker containers
-docker compose up -d --build
+3️⃣ Build & Start ContainersBashdocker
+  compose up -d --build
+⏳ The first build may take 3–5 minutes.
+4️⃣ Install DependenciesBashdocker 
+  compose exec app composer install
+5️⃣ Generate Application KeyBashdocker 
+  compose exec app php artisan key:generate
+6️⃣ Run Migrations & Seed DataBashdocker 
+  compose exec app php artisan migrate --seed
 
-
-⏳ First time may take 3–5 minutes
-
-4️⃣ Install PHP dependencies
-docker compose exec app composer install
-
-5️⃣ Generate application key
-docker compose exec app php artisan key:generate
-
-6️⃣ Run migrations & seed data
-docker compose exec app php artisan migrate --seed
-
-
-✔ This will:
-
-Create database tables
-
-Import student data from database/data/students.json
-
-🌐 Access Application
-
-Filament Admin	http://localhost:8000/admin
-📊 Business Logic
-Student Score Calculation
-
-Total Score = Math + Physics + Chemistry
-
-Average Score = Total / 3
-
-Classification Rule
-Average Score	Classification
-≥ 8.0	Excellent
-≥ 6.5	Good
-≥ 5.0	Average
-< 5.0	Poor
-
-🧪 Useful Commands
-# Check running containers
+✔ This command will:Create necessary database tables.
+Import student data from database/data/students.json.
+🌐 Access the ApplicationOnce the setup is complete, you can access the admin panel at:
+👉 Filament Admin: http://localhost:8000/admin
+📊 Business LogicThe system automatically calculates scores and classifies students based on the following rules:
+Score CalculationTotal Score = Math + Physics + ChemistryAverage Score = Total Score / 3
+Classification Rules
+Average Score   Classification
+≥ 8.0   Excellent
+≥ 6.5   Good
+≥ 5.0   Average
+< 5.0   Poor
+🧪 Useful CommandsBash# Check running containers
 docker compose ps
 
-# View logs
+# View application logs
 docker compose logs app
+
+# View database logs
 docker compose logs db
 
-# Access Laravel container
+# Access the Laravel application container shell
 docker compose exec app bash
 
-# Run tinker
+# Run Laravel Tinker
 docker compose exec app php artisan tinker
 
-🧑‍💻 Author
-
-Thành Được
+🧑‍💻 AuthorThành Được
 Backend Intern Candidate
 
-✅ Notes
-
-The project follows MVC architecture
-
-Business logic is separated into Service layer
-
-Dockerized for easy setup and consistency across environments
+✅ NotesThe project adheres to MVC architecture.Complex business logic is handled in the Service Layer.The environment is fully Dockerized to ensure consistency across different machines.
