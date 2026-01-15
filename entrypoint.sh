@@ -1,15 +1,17 @@
 #!/bin/sh
 
-echo "== Laravel booting =="
+echo "=== Laravel starting ==="
 
-php artisan key:generate --force
+php artisan key:generate --force || true
 
 php artisan migrate --force || true
 
-php artisan livewire:publish --force
+php artisan livewire:publish --force || true
 
 php artisan filament:assets || true
 
-php artisan optimize:clear
+php artisan optimize:clear || true
 
-exec "$@"
+echo "=== Laravel ready ==="
+
+exec php -S 0.0.0.0:8080 -t public

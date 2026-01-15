@@ -42,8 +42,4 @@ RUN composer install --no-dev --optimize-autoloader
 # Laravel permissions
 RUN chmod -R 775 storage bootstrap/cache
 
-# Expose port
-EXPOSE 8080
-
-# Start server (QUAN TRỌNG)
-CMD php -S 0.0.0.0:8080 -t public
+ENTRYPOINT ["/entrypoint.sh"]
