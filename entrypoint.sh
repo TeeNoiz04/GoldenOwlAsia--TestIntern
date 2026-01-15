@@ -1,7 +1,11 @@
 #!/bin/sh
 
-echo "Running migrations..."
+php artisan key:generate --force
+
 php artisan migrate --force || true
 
-echo "Starting PHP server..."
-exec php -S 0.0.0.0:$PORT -t public
+php artisan livewire:publish --force
+
+php artisan optimize:clear
+
+exec "$@"

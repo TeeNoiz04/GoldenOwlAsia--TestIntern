@@ -1,9 +1,9 @@
 FROM php:8.2-fpm
 
-# Set memory limit
+# Memory limit
 RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini
 
-# Install system dependencies & PHP extensions
+# System dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -28,27 +28,22 @@ RUN apt-get update && apt-get install -y \
         zip \
         intl
 
-# Copy composer
+# Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www
 
-# Copy Laravel source code
+# Copy source
 COPY . .
 
-# Install PHP dependencies
+# Install PHP deps
 RUN composer install --no-dev --optimize-autoloader
 
-# Permission for Laravel
+# Laravel permissions
 RUN chmod -R 775 storage bootstrap/cache
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 # Expose port
 EXPOSE 8080
 
-ENTRYPOINT ["/entrypoint.sh"]
-
-
-
+# Start server (QUAN TRỌNG)
+CMD php -S 0.0.0.0:8080 -t public
