@@ -5,6 +5,7 @@ RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini
 
 # Install system dependencies & PHP extensions
 RUN apt-get update && apt-get install -y \
+    nginx \
     git \
     curl \
     zip \
