@@ -4,7 +4,8 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use App\Domain\Statistics\ScienceGroupCalculator;
+use App\Domain\Statistics\ScienceGroupStatisticsCalculator;
+use App\Domain\Statistics\SocialGroupStatisticsCalculator;
 
 class TotalStudents extends BaseWidget
 {
@@ -13,10 +14,13 @@ class TotalStudents extends BaseWidget
     
     protected function getStats(): array
     {
-        $calculator = new ScienceGroupCalculator();
-        $percent = $calculator->calculatePercent();
+        $scienceCalculator = new ScienceGroupStatisticsCalculator();
+        $socialCalculator = new SocialGroupStatisticsCalculator();
+
+        $percentScience = $scienceCalculator->calculatePercent();
+        $percentSocial = $socialCalculator->calculatePercent();
         return [
-            Stat::make('Total Students', $calculator->getTotalStudent())
+            Stat::make('Total Students', $scienceCalculator->getTotalStudent())
                 ->description('Number of all registered students')
                 ->descriptionIcon('heroicon-o-user-group')
                 ->color('success')
@@ -24,7 +28,7 @@ class TotalStudents extends BaseWidget
 
                     'wire:click' => "\$dispatch('setStatusFilter', { filter: 'processed' })",
                 ]),
-            Stat::make('Science Group Percentage', $percent . '%')
+            Stat::make('Science Group Percentage', $percentScience . '%')
                 ->description('Percentage of students not in the poor category')
                 ->descriptionIcon('heroicon-o-chart-bar-square')
                 ->color('success')
@@ -32,7 +36,7 @@ class TotalStudents extends BaseWidget
 
                     'wire:click' => "\$dispatch('setStatusFilter', { filter: 'processed' })",
                 ]),
-            Stat::make('Social Group Percentage', (new \App\Domain\Statistics\SocialGroupCalculator())->calculatePercent() . '%')
+            Stat::make('Social Group Percentage', $percentSocial . '%')
                 ->description('Percentage of students not in the poor category')
                 ->descriptionIcon('heroicon-o-chart-bar-square')->color('success')
                 ->extraAttributes([

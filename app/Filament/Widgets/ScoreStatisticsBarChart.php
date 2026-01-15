@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Domain\Statistics\Subjects;
+use App\Domain\Statistics\SubjectConfig;
 use App\Models\SubjectStatistic;
 use Filament\Widgets\ChartWidget;
 
@@ -16,17 +16,7 @@ class ScoreStatisticsBarChart extends ChartWidget
     
     protected function getFilters(): ?array
     {
-        return [
-            'toan' => 'Math',
-            'vat_li' => 'Physics',
-            'hoa_hoc' => 'Chemistry',
-            'sinh_hoc' => 'Biology',
-            'lich_su' => 'History',
-            'dia_li' => 'Geography',
-            'gdcd' => 'Civic Education',
-            'ngu_van' => 'Literature',
-            'ngoai_ngu' => 'Foreign Language',
-        ];
+        return SubjectConfig::ALL;
     }
 
 
@@ -45,7 +35,7 @@ class ScoreStatisticsBarChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => Subjects::ALL[$subject],
+                    'label' => SubjectConfig::ALL[$subject],
                     'data' => [
                         $stat->excellent ?? 0,
                         $stat->good ?? 0,

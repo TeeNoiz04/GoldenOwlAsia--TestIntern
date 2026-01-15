@@ -18,7 +18,7 @@ class Top10GroupA01Students extends BaseWidget
     {
         return Student::query()
             ->select('*')
-            ->selectRaw('(toan + hoa_hoc + sinh_hoc) as total_group_a01')
+            ->selectRaw('(toan + vat_li + ngoai_ngu) as total_group_a01')
             ->orderByDesc('total_group_a01')
             ->limit(10);
     }

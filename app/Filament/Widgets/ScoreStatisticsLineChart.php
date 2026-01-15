@@ -4,7 +4,7 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use App\Models\SubjectStatistic;
-use App\Domain\Statistics\Subjects;
+use App\Domain\Statistics\SubjectConfig;
 
 class ScoreStatisticsLineChart extends ChartWidget
 {
@@ -16,30 +16,18 @@ class ScoreStatisticsLineChart extends ChartWidget
 
     protected function getData(): array
     {
-        $subjects = [
-            'toan',
-            'ngu_van',
-            'ngoai_ngu',
-            'vat_li',
-            'hoa_hoc',
-            'sinh_hoc',
-            'lich_su',
-            'dia_li',
-            'gdcd',
-            'tin_hoc',
-            'cong_nghe',
-        ];
+        $subjects = SubjectConfig::getAllKeys();
 
         $stats = SubjectStatistic::whereIn('subject', $subjects)
             ->orderByRaw("FIELD(subject, '" . implode("','", $subjects) . "')")
             ->get();
 
         return [
-            // Trục X: môn học
+            // X-axis: subjects
             'labels' => $stats->pluck('subject')
-                ->map(fn($s) => Subjects::ALL[$s]),
+                ->map(fn($s) => SubjectConfig::getDisplayName($s)),
 
-            // 4 đường = 4 level
+            // 4 lines = 4 levels
             'datasets' => [
                 [
                     'label' => 'Excellent',
