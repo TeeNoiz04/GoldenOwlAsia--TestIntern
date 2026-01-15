@@ -42,7 +42,10 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Laravel permissions
-RUN chmod -R 775 storage bootstrap/cache
+RUN mkdir -p storage/logs bootstrap/cache \
+ && chown -R www-data:www-data storage bootstrap/cache \
+ && chmod -R 775 storage bootstrap/cache
+
 
 # Nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
