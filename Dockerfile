@@ -43,14 +43,12 @@ RUN composer install --no-dev --optimize-autoloader
 # Permission for Laravel
 RUN chmod -R 775 storage bootstrap/cache
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 # Expose port
-EXPOSE 3000
+EXPOSE 8080
 
-# Run migrations and seeders (optional)
-RUN php artisan migrate --force
-
-# Start Laravel
-CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 
 
