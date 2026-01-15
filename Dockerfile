@@ -46,7 +46,11 @@ RUN chmod -R 775 storage bootstrap/cache
 # Expose port
 EXPOSE 3000
 
+# Run migrations and seeders (optional)
+RUN php artisan migrate --force
+
 # Start Laravel
 CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
+
 
 
