@@ -1,5 +1,9 @@
 FROM php:8.2-fpm
+
+# Set memory limit
 RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini
+
+# Install system dependencies & PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -24,6 +28,23 @@ RUN apt-get update && apt-get install -y \
         zip \
         intl
 
+# Copy composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Set working directory
 WORKDIR /var/www
+
+# Copy Laravel source code
+COPY . .
+
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Permission for Laravel
+RUN chmod -R 775 storage bootstrap/cache
+
+# Expose port
+EXPOSE 3000
+
+# Start Laravel
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=3000"]
