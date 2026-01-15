@@ -12,6 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        if (\App\Models\Student::count() > 0) {
+            return;
+        }
         $this->call([
             StudentSeeder::class,
         ]);
