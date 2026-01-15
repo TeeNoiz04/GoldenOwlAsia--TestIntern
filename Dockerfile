@@ -47,5 +47,6 @@ RUN chmod -R 775 storage bootstrap/cache
 EXPOSE 3000
 
 # Start Laravel
-CMD ["php", "-S", "0.0.0.0:3000", "-t", "public"]
+CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
+
 
