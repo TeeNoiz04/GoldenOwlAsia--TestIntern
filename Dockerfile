@@ -43,6 +43,8 @@ RUN composer install --no-dev --optimize-autoloader
 # Laravel permissions
 RUN chmod -R 775 storage bootstrap/cache
 
+# Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy entrypoint (QUAN TRỌNG)
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
